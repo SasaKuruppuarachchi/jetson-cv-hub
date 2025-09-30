@@ -15,6 +15,8 @@ The Jetson CV Hub is a versatile, reconfigurable computer vision platform design
 - **Onboard Power**: Integrated power management for all components
 - **Modular Design**: 3D printable housing with reconfigurable mounting options
 
+![Description](../figures/device_parts_named.png)
+
 ## Features
 
 - ✅ **Open Source**: All CAD files, documentation, and assembly instructions freely available
