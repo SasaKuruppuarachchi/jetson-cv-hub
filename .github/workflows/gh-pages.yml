@@ -1,0 +1,81 @@
+name: Deploy GitHub Pages
+
+on:
+  push:
+    branches:
+      - main
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+concurrency:
+  group: "pages"
+  cancel-in-progress: false
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+        
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '18'
+          
+      - name: Install dependencies
+        run: |
+          npm install -g marked highlight.js
+          
+      - name: Build site
+        run: |
+          # Create build directory
+          mkdir -p build
+          
+          # Copy static site files
+          cp -r docs-site/* build/
+          
+          # Copy documentation markdown files for reference
+          mkdir -p build/docs
+          cp docs/*.md build/docs/
+          cp README.md build/
+          cp QUICK_START.md build/ || true
+          cp BOM.md build/ || true
+          cp CHANGELOG.md build/ || true
+          cp CONTRIBUTING.md build/ || true
+          
+          # Copy calibration docs
+          mkdir -p build/calibration
+          cp -r calibration/* build/calibration/ || true
+          
+          # Copy CAD readme
+          mkdir -p build/cad
+          cp cad/README.md build/cad/ || true
+          
+          # Create figures directory if it exists
+          if [ -d "figures" ]; then
+            cp -r figures build/
+          fi
+          
+      - name: Setup Pages
+        uses: actions/configure-pages@v4
+        
+      - name: Upload artifact
+        uses: actions/upload-pages-artifact@v3
+        with:
+          path: './build'
+
+  deploy:
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    runs-on: ubuntu-latest
+    needs: build
+    steps:
+      - name: Deploy to GitHub Pages
+        id: deployment
+        uses: actions/deploy-pages@v4

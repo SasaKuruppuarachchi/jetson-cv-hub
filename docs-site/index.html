@@ -1,0 +1,238 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Jetson CV Hub - Open Source Computer Vision Platform</title>
+    <link rel="stylesheet" href="css/style.css">
+    <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
+</head>
+<body>
+    <nav class="navbar">
+        <div class="nav-container">
+            <div class="nav-logo">
+                <h1>Jetson CV Hub</h1>
+            </div>
+            <ul class="nav-menu">
+                <li><a href="index.html" class="active">Home</a></li>
+                <li><a href="assembly.html">Assembly</a></li>
+                <li><a href="setup.html">Setup</a></li>
+                <li><a href="quick-start.html">Quick Start</a></li>
+                <li><a href="bom.html">BOM</a></li>
+                <li><a href="https://github.com/SasaKuruppuarachchi/jetson-cv-hub" target="_blank">GitHub</a></li>
+            </ul>
+        </div>
+    </nav>
+
+    <header class="hero">
+        <div class="hero-content">
+            <h1>Jetson CV Hub</h1>
+            <p class="subtitle">An Open Source 3D Printable Computer Vision Hub for Researchers</p>
+            <div class="hero-buttons">
+                <a href="quick-start.html" class="btn btn-primary">Get Started</a>
+                <a href="https://github.com/SasaKuruppuarachchi/jetson-cv-hub" class="btn btn-secondary" target="_blank">View on GitHub</a>
+            </div>
+        </div>
+    </header>
+
+    <main class="container">
+        <section class="overview">
+            <h2>Overview</h2>
+            <p>The Jetson CV Hub is a versatile, reconfigurable computer vision platform designed for robotics and machine vision research. It integrates:</p>
+            <div class="features-grid">
+                <div class="feature-card">
+                    <h3>🎥 FLIR Machine Vision Cameras</h3>
+                    <p>High-quality imaging for computer vision applications</p>
+                </div>
+                <div class="feature-card">
+                    <h3>📡 Xsense IMU</h3>
+                    <p>Precision inertial measurement for motion tracking and sensor fusion</p>
+                </div>
+                <div class="feature-card">
+                    <h3>⚡ NVIDIA Jetson Orin</h3>
+                    <p>Powerful onboard computing with GPU acceleration</p>
+                </div>
+                <div class="feature-card">
+                    <h3>🔌 Onboard Power</h3>
+                    <p>Integrated power management for all components</p>
+                </div>
+                <div class="feature-card">
+                    <h3>🔧 Modular Design</h3>
+                    <p>3D printable housing with reconfigurable mounting options</p>
+                </div>
+            </div>
+        </section>
+
+        <section class="features">
+            <h2>Features</h2>
+            <ul class="feature-list">
+                <li>✅ <strong>Open Source</strong>: All CAD files, documentation, and assembly instructions freely available</li>
+                <li>✅ <strong>3D Printable</strong>: Design optimized for standard FDM 3D printers</li>
+                <li>✅ <strong>Modular</strong>: Support for 1-4 cameras with flexible mounting configurations</li>
+                <li>✅ <strong>Reconfigurable</strong>: Adapt the system for different applications and sensors</li>
+                <li>✅ <strong>Well-Documented</strong>: Comprehensive assembly, setup, and calibration guides</li>
+                <li>✅ <strong>Research-Ready</strong>: Calibration files and integration examples included</li>
+            </ul>
+        </section>
+
+        <section class="getting-started">
+            <h2>Getting Started</h2>
+            <div class="steps-grid">
+                <div class="step-card">
+                    <div class="step-number">1</div>
+                    <h3>Review the Bill of Materials</h3>
+                    <p>Start by reviewing the <a href="bom.html">Bill of Materials (BOM)</a> to understand required components and parts.</p>
+                </div>
+                <div class="step-card">
+                    <div class="step-number">2</div>
+                    <h3>Print the Parts</h3>
+                    <p>Follow the CAD instructions to download and prepare 3D printable components.</p>
+                </div>
+                <div class="step-card">
+                    <div class="step-number">3</div>
+                    <h3>Assemble the Hardware</h3>
+                    <p>Follow the step-by-step <a href="assembly.html">Assembly Instructions</a> to build your hub.</p>
+                </div>
+                <div class="step-card">
+                    <div class="step-number">4</div>
+                    <h3>Configure the Software</h3>
+                    <p>Use the <a href="setup.html">Setup Instructions</a> to install and configure all software.</p>
+                </div>
+                <div class="step-card">
+                    <div class="step-number">5</div>
+                    <h3>Calibrate the System</h3>
+                    <p>Follow calibration procedures to ensure accurate sensor measurements.</p>
+                </div>
+            </div>
+        </section>
+
+        <section class="use-cases">
+            <h2>Use Cases</h2>
+            <p>The Jetson CV Hub is designed for various research applications:</p>
+            <div class="use-cases-grid">
+                <div class="use-case-card">
+                    <h3>🤖 Mobile Robotics</h3>
+                    <p>Visual-inertial odometry and SLAM</p>
+                </div>
+                <div class="use-case-card">
+                    <h3>🏭 Industrial Automation</h3>
+                    <p>Quality inspection and object detection</p>
+                </div>
+                <div class="use-case-card">
+                    <h3>🚁 Drone/UAV Systems</h3>
+                    <p>Autonomous navigation and mapping</p>
+                </div>
+                <div class="use-case-card">
+                    <h3>🔬 Research Projects</h3>
+                    <p>Computer vision algorithm development</p>
+                </div>
+                <div class="use-case-card">
+                    <h3>📊 3D Reconstruction</h3>
+                    <p>Multi-camera stereo and structure-from-motion</p>
+                </div>
+                <div class="use-case-card">
+                    <h3>🎯 Object Tracking</h3>
+                    <p>Real-time visual tracking with IMU fusion</p>
+                </div>
+            </div>
+        </section>
+
+        <section class="specifications">
+            <h2>Hardware Specifications</h2>
+            <table class="specs-table">
+                <thead>
+                    <tr>
+                        <th>Component</th>
+                        <th>Description</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td><strong>Compute</strong></td>
+                        <td>NVIDIA Jetson Orin (NX/Nano/AGX)</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Cameras</strong></td>
+                        <td>FLIR Machine Vision (1-4 units, model configurable)</td>
+                    </tr>
+                    <tr>
+                        <td><strong>IMU</strong></td>
+                        <td>Xsense MTi Series (6-DOF or 9-DOF)</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Power</strong></td>
+                        <td>Integrated power distribution system</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Housing</strong></td>
+                        <td>3D printed PETG/PLA enclosure</td>
+                    </tr>
+                </tbody>
+            </table>
+
+            <h3>Connectivity</h3>
+            <ul>
+                <li>USB 3.0 for camera interfaces</li>
+                <li>GPIO/USB for IMU connection</li>
+                <li>Gigabit Ethernet</li>
+                <li>WiFi/Bluetooth (optional)</li>
+                <li>External I/O ports for expansion</li>
+            </ul>
+        </section>
+
+        <section class="software-stack">
+            <h2>Software Stack</h2>
+            <p>Compatible with:</p>
+            <div class="software-grid">
+                <div class="software-item">JetPack SDK</div>
+                <div class="software-item">ROS/ROS2</div>
+                <div class="software-item">OpenCV</div>
+                <div class="software-item">CUDA</div>
+                <div class="software-item">PyTorch/TensorFlow</div>
+                <div class="software-item">Spinnaker SDK</div>
+                <div class="software-item">MT Software Suite</div>
+            </div>
+        </section>
+
+        <section class="community">
+            <h2>Community and Support</h2>
+            <div class="community-grid">
+                <div class="community-card">
+                    <h3>Contributing</h3>
+                    <p>We welcome contributions! Submit issues, improve documentation, or share your modifications.</p>
+                    <a href="https://github.com/SasaKuruppuarachchi/jetson-cv-hub/issues" class="btn btn-outline">Open an Issue</a>
+                </div>
+                <div class="community-card">
+                    <h3>Getting Help</h3>
+                    <p>Check the docs folder for detailed guides or use GitHub Discussions for general questions.</p>
+                    <a href="https://github.com/SasaKuruppuarachchi/jetson-cv-hub/discussions" class="btn btn-outline">Discussions</a>
+                </div>
+            </div>
+        </section>
+
+        <section class="citation">
+            <h2>Citation</h2>
+            <p>If you use this project in your research, please cite:</p>
+            <pre><code>@misc{jetson-cv-hub,
+  title={Jetson CV Hub: An Open Source Computer Vision Platform},
+  author={[Author Name]},
+  year={2024},
+  publisher={GitHub},
+  url={https://github.com/SasaKuruppuarachchi/jetson-cv-hub}
+}</code></pre>
+        </section>
+    </main>
+
+    <footer>
+        <div class="container">
+            <p>Licensed under the Apache License 2.0</p>
+            <p><strong>Built with ❤️ for the computer vision research community</strong></p>
+            <p>
+                <a href="https://github.com/SasaKuruppuarachchi/jetson-cv-hub" target="_blank">GitHub</a> |
+                <a href="https://github.com/SasaKuruppuarachchi/jetson-cv-hub/blob/main/LICENSE" target="_blank">License</a> |
+                <a href="https://github.com/SasaKuruppuarachchi/jetson-cv-hub/blob/main/CONTRIBUTING.md" target="_blank">Contributing</a>
+            </p>
+        </div>
+    </footer>
+</body>
+</html>
