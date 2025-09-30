@@ -39,6 +39,12 @@ jetson-cv-hub/
 
 ## Getting Started
 
+### Quick Start
+
+⚡ **Want to get started quickly?** Check out the [Quick Start Guide](QUICK_START.md) for a streamlined setup process.
+
+### Detailed Setup Process
+
 ### 1. Review the Bill of Materials
 
 Start by reviewing the [Bill of Materials (BOM)](BOM.md) to understand required components and parts.
