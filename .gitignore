@@ -1,0 +1,98 @@
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.Python
+build/
+develop-eggs/
+dist/
+downloads/
+eggs/
+.eggs/
+lib/
+lib64/
+parts/
+sdist/
+var/
+wheels/
+*.egg-info/
+.installed.cfg
+*.egg
+MANIFEST
+.pytest_cache/
+.coverage
+htmlcov/
+.tox/
+.hypothesis/
+*.log
+
+# Virtual Environments
+venv/
+env/
+ENV/
+cv_env/
+
+# Jupyter Notebook
+.ipynb_checkpoints
+*.ipynb_checkpoints/
+
+# IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+.DS_Store
+
+# CAD temp files
+*.autosave
+*.backup
+*.lock
+~*.step
+~*.stl
+
+# Calibration data (keep templates, ignore actual calibration)
+calibration/camera/intrinsics/*.yaml
+calibration/camera/extrinsics/*.yaml
+calibration/camera/stereo/*.yaml
+calibration/imu/factory/*.yaml
+calibration/imu/custom/*.yaml
+calibration/camera_imu/*.yaml
+!calibration/templates/*.yaml
+
+# Compiled files
+*.o
+*.so
+*.dll
+*.exe
+
+# Logs
+*.log
+logs/
+
+# Data files
+*.bag
+*.mp4
+*.avi
+*.png
+*.jpg
+*.jpeg
+!docs/images/*.png
+!docs/images/*.jpg
+
+# Build artifacts
+CMakeFiles/
+CMakeCache.txt
+cmake_install.cmake
+Makefile
+
+# ROS
+devel/
+build/
+install/
+
+# Temporary files
+/tmp/
+*.tmp
+*.temp

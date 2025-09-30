@@ -1,0 +1,53 @@
+# Camera Intrinsic Calibration Template
+
+# This is a template file for camera intrinsic calibration parameters
+# Copy this file and rename it for each camera (e.g., camera_0_intrinsics.yaml)
+
+camera_name: "camera_0"
+image_width: 1920
+image_height: 1200
+
+# Camera Matrix (K)
+# [fx  0  cx]
+# [ 0 fy  cy]
+# [ 0  0   1]
+camera_matrix:
+  rows: 3
+  cols: 3
+  data: [1500.0, 0.0, 960.0,
+         0.0, 1500.0, 600.0,
+         0.0, 0.0, 1.0]
+
+# Distortion Coefficients
+# [k1, k2, p1, p2, k3]
+# k1, k2, k3: radial distortion
+# p1, p2: tangential distortion
+distortion_coefficients:
+  rows: 1
+  cols: 5
+  data: [0.0, 0.0, 0.0, 0.0, 0.0]
+
+# Distortion model
+distortion_model: "plumb_bob"
+
+# Rectification matrix (for stereo)
+rectification_matrix:
+  rows: 3
+  cols: 3
+  data: [1.0, 0.0, 0.0,
+         0.0, 1.0, 0.0,
+         0.0, 0.0, 1.0]
+
+# Projection matrix
+projection_matrix:
+  rows: 3
+  cols: 4
+  data: [1500.0, 0.0, 960.0, 0.0,
+         0.0, 1500.0, 600.0, 0.0,
+         0.0, 0.0, 1.0, 0.0]
+
+# Calibration metadata
+calibration_date: "YYYY-MM-DD"
+calibration_method: "OpenCV"
+reprojection_error: 0.0
+num_images_used: 0
