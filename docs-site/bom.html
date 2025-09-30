@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Bill of Materials - Jetson CV Hub</title>
+    <link rel="stylesheet" href="css/style.css">
+    <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
+</head>
+<body>
+    <nav class="navbar">
+        <div class="nav-container">
+            <div class="nav-logo">
+                <h1>Jetson CV Hub</h1>
+            </div>
+            <ul class="nav-menu">
+                <li><a href="index.html">Home</a></li>
+                <li><a href="assembly.html">Assembly</a></li>
+                <li><a href="setup.html">Setup</a></li>
+                <li><a href="quick-start.html">Quick Start</a></li>
+                <li><a href="bom.html" class="active">BOM</a></li>
+                <li><a href="https://github.com/SasaKuruppuarachchi/jetson-cv-hub" target="_blank">GitHub</a></li>
+            </ul>
+        </div>
+    </nav>
+
+    <div class="doc-content">
+        <div class="doc-nav">
+            <a href="quick-start.html">← Back to Quick Start</a>
+            <a href="assembly.html">Next: Assembly Instructions →</a>
+        </div>
+
+        <div id="markdown-content">
+            <!-- Content will be loaded here -->
+        </div>
+    </div>
+
+    <footer>
+        <div class="container">
+            <p>Licensed under the Apache License 2.0</p>
+            <p><strong>Built with ❤️ for the computer vision research community</strong></p>
+            <p>
+                <a href="https://github.com/SasaKuruppuarachchi/jetson-cv-hub" target="_blank">GitHub</a> |
+                <a href="https://github.com/SasaKuruppuarachchi/jetson-cv-hub/blob/main/LICENSE" target="_blank">License</a> |
+                <a href="https://github.com/SasaKuruppuarachchi/jetson-cv-hub/blob/main/CONTRIBUTING.md" target="_blank">Contributing</a>
+            </p>
+        </div>
+    </footer>
+
+    <script>
+        // Fetch and render the BOM markdown
+        fetch('BOM.md')
+            .then(response => response.text())
+            .then(markdown => {
+                const html = marked.parse(markdown);
+                document.getElementById('markdown-content').innerHTML = html;
+            })
+            .catch(error => {
+                console.error('Error loading markdown:', error);
+                document.getElementById('markdown-content').innerHTML = '<p>Error loading Bill of Materials. Please visit the <a href="https://github.com/SasaKuruppuarachchi/jetson-cv-hub/blob/main/BOM.md">GitHub repository</a>.</p>';
+            });
+    </script>
+</body>
+</html>
