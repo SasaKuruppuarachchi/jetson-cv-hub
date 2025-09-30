@@ -49,7 +49,8 @@
 
     <script>
         // Fetch and render the Quick Start markdown
-        fetch('QUICK_START.md')
+        // Add cache-busting parameter to ensure fresh content is loaded
+        fetch('QUICK_START.md?v=' + Date.now())
             .then(response => response.text())
             .then(markdown => {
                 const html = marked.parse(markdown);
