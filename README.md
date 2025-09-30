@@ -17,6 +17,7 @@ The Jetson CV Hub is a versatile, reconfigurable computer vision platform design
 ## Features
 
 - ✅ **Open Source**: All CAD files, documentation, and assembly instructions freely available
+- ✅ **ROS2**: Natively supports latest ROS2:Humble
 - ✅ **3D Printable**: Design optimized for standard FDM 3D printers
 - ✅ **Modular**: Support for 1-4 cameras with flexible mounting configurations
 - ✅ **Reconfigurable**: Adapt the system for different applications and sensors
