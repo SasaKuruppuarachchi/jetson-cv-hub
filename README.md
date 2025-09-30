@@ -11,13 +11,13 @@ The Jetson CV Hub is a versatile, reconfigurable computer vision platform design
 - **FLIR Machine Vision Cameras**: High-quality imaging for computer vision applications
 - **Xsense IMU**: Precision inertial measurement for motion tracking and sensor fusion
 - **NVIDIA Jetson Orin**: Powerful onboard computing with GPU acceleration
+- **ROS2**: Natively supports latest ROS2:Humble
 - **Onboard Power**: Integrated power management for all components
 - **Modular Design**: 3D printable housing with reconfigurable mounting options
 
 ## Features
 
 - ✅ **Open Source**: All CAD files, documentation, and assembly instructions freely available
-- ✅ **ROS2**: Natively supports latest ROS2:Humble
 - ✅ **3D Printable**: Design optimized for standard FDM 3D printers
 - ✅ **Modular**: Support for 1-4 cameras with flexible mounting configurations
 - ✅ **Reconfigurable**: Adapt the system for different applications and sensors
