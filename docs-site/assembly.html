@@ -49,7 +49,8 @@
 
     <script>
         // Fetch and render the Assembly Instructions markdown
-        fetch('docs/ASSEMBLY_INSTRUCTIONS.md')
+        // Add cache-busting parameter to ensure fresh content is loaded
+        fetch('docs/ASSEMBLY_INSTRUCTIONS.md?v=' + Date.now())
             .then(response => response.text())
             .then(markdown => {
                 const html = marked.parse(markdown);
