@@ -7,7 +7,7 @@
 | Item | Description | Quantity | Manufacturer/Part Number | Notes |
 |------|-------------|----------|--------------------------|-------|
 | 1 | NVIDIA Jetson Orin (NX/Nano/AGX) | 1 | NVIDIA | Specify model based on requirements |
-| 2 | FLIR Machine Vision Camera | 1-4 | FLIR/Teledyne | Model: [Specify model] |
+| 2 | FLIR Machine Vision Camera | 2 | FLIR/Teledyne | Model: [Specify model] |
 | 3 | Xsense IMU | 1 | Xsense | Model: [Specify model] |
 | 4 | Power Supply Unit | 1 | [TBD] | Input: 100-240V AC, Output: [TBD]V DC |
 | 5 | Power Distribution Board | 1 | Custom/COTS | Provides power to all components |
