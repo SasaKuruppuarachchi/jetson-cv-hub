@@ -2,6 +2,8 @@
 
 An Open Source 3D Printable Computer Vision Hub for Researchers
 
+📖 **[Visit the Project Website](https://sasakuruppuarachchi.github.io/jetson-cv-hub/)** for a better reading experience!
+
 ## Overview
 
 The Jetson CV Hub is a versatile, reconfigurable computer vision platform designed for robotics and machine vision research. It integrates:
@@ -32,6 +34,12 @@ jetson-cv-hub/
 ├── docs/                  # Documentation
 │   ├── ASSEMBLY_INSTRUCTIONS.md    # Hardware assembly guide
 │   └── SETUP_INSTRUCTIONS.md       # Software setup and configuration
+├── docs-site/             # GitHub Pages website source
+│   ├── index.html         # Landing page
+│   ├── assembly.html      # Assembly instructions page
+│   ├── setup.html         # Setup instructions page
+│   └── css/               # Website styling
+├── figures/               # Images and diagrams for documentation
 ├── BOM.md                 # Bill of Materials
 ├── README.md              # This file
 └── LICENSE                # Apache 2.0 License
