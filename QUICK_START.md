@@ -95,6 +95,9 @@ sudo apt install -y build-essential cmake git python3-pip
 
 ## Step 5: Calibrate System (1-2 hours)
 
+![Calibration Workflow](figures/diagrams/Calib.png)
+*Camera and IMU calibration workflow diagram*
+
 1. **Camera calibration**:
    - Print checkerboard pattern
    - Capture calibration images

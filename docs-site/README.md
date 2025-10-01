@@ -60,12 +60,26 @@ Note: Due to CORS restrictions, you'll need to test with the full build to see m
 
 To add figures that will be displayed on the site:
 
-1. Create a `figures/` directory in the repository root
-2. Add your images to the `figures/` directory
+1. Organize images in the `figures/` directory by category:
+   ```
+   figures/
+   ├── assembly/           # Assembly photos (3D printing, camera assembly, power assembly, etc.)
+   ├── hardware/          # Hardware component photos (cameras, Jetson, IMU, PX4, etc.)
+   ├── diagrams/          # System diagrams and schematics (sync, calibration, results)
+   ├── attachments/       # Optional attachments (VICON holders, etc.)
+   └── (root files)       # Main device images (front, back, isometric, parts diagram)
+   ```
+
+2. Add your images to the appropriate subdirectory with descriptive filenames
+
 3. Reference them in your markdown files using relative paths:
    ```markdown
-   ![Description](../figures/your-image.png)
+   ![Description](../figures/assembly/your-image.jpg)
+   ![Component](../figures/hardware/component-name.png)
+   ![Diagram](../figures/diagrams/system-diagram.jpg)
    ```
+
+4. The workflow automatically copies the entire `figures/` directory to the site
 
 ## Customization
 

@@ -11,9 +11,40 @@ This directory contains images and figures used in the Jetson CV Hub documentati
 - **`device_isometric.gif`** (1.5 MB) - Animated isometric view of the device
 - **`device_parts_named.png`** (1.5 MB) - Annotated diagram showing all major components
 
+### Assembly Photos (`assembly/`)
+
+- **`3d printed_finish.jpg`** (3.9 MB) - Completed 3D printed parts ready for assembly
+- **`3d_printing_in_progress.jpg`** (10 KB) - 3D printer working on component parts
+- **`bottom_altitude_sensor_assmbly.jpg`** (4.0 MB) - Bottom-mounted altitude sensor installation
+- **`flir_camera_assembly.jpg`** (3.0 MB) - FLIR camera mounting and installation
+- **`i2c_display_aseembly_with_buttons.jpg`** (3.7 MB) - I2C status display with control buttons assembly
+- **`power_assembly_with regulator.jpg`** (4.0 MB) - Power distribution system with voltage regulator
+
+### Hardware Components (`hardware/`)
+
+- **`FLIR_BFLY-U3-23S6.png`** (17 KB) - FLIR Blackfly camera component image
+- **`alt_sensor.jpg`** (4.0 MB) - Altitude sensor component
+- **`flir_cameras.jpg`** (4.4 MB) - FLIR machine vision cameras
+- **`jetson.jpg`** (7.7 KB) - NVIDIA Jetson Orin module
+- **`onboard_power.jpg`** (4.0 MB) - Onboard power distribution system
+- **`px4.jpg`** (2.9 KB) - PX4 flight controller for hardware synchronization
+- **`status_screan.jpg`** (3.7 MB) - Status display screen with system information
+- **`xsense_imu.png`** (23 KB) - Xsense MTi IMU component
+
+### System Diagrams (`diagrams/`)
+
+- **`Calib.png`** (352 KB) - Camera and IMU calibration workflow diagram
+- **`Sync.jpg`** (313 KB) - Hardware synchronization architecture showing PX4-based trigger system
+- **`results.png`** (136 KB) - Example system results and performance metrics
+
+### Attachments (`attachments/`)
+
+- **`IMG_20211206_060001.jpg`** (4.4 MB) - Device with attachments and accessories
+- **`vicon_attachment.jpg`** (3.6 MB) - VICON motion capture marker holder attachment
+
 ### Hardware Synchronization
 
-Hardware synchronization diagrams showing the PX4-based trigger system will be added here. The system uses:
+The system uses PX4-based hardware synchronization (see `diagrams/Sync.jpg`):
 - PX4 as master device generating 100 Hz trigger signal
 - Cameras and Xsense IMU connected in parallel to receive sync signals
 - Precise temporal alignment for visual-inertial SLAM
