@@ -6,7 +6,7 @@
 
 - **Version**: 1.0 (Draft)
 - **Last Updated**: [Date]
-- **Author**: [Author Name]
+- **Author**: [Kuruppu Arachchige, Sasanka]
 - **Status**: Draft - Subject to refinement
 
 ---

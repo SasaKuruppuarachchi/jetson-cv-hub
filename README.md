@@ -184,7 +184,7 @@ If you use this project in your research, please cite:
 ```bibtex
 @misc{jetson-cv-hub,
   title={A Synchronized Visual-Inertial Sensor System on Jetson for Accurate Real-Time SLAM},
-  author={[Author Name]},
+  author={[Kuruppu Arachchige, Sasanka]},
   year={2024},
   publisher={GitHub},
   url={https://github.com/SasaKuruppuarachchi/jetson-cv-hub}
