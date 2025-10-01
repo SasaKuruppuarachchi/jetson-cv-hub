@@ -2,6 +2,9 @@
 
 This directory contains 3D printable CAD files and design source files for the Jetson CV Hub.
 
+![Device Isometric View](../figures/device_isometric.gif)
+*Animated isometric view of the assembled device*
+
 ## Directory Structure
 
 ```
