@@ -18,7 +18,7 @@ The CAD files include designs for:
 CAD files are provided in the following formats:
 - `.stl` - for 3D printing
 - `.step` - for CAD software compatibility
-- `.f3d` (Fusion 360) or native CAD format - for editing
+- `.ipt`, `.iam` (Autodesk Inventor)  - for editing
 
 ## Printing Recommendations
 

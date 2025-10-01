@@ -1,0 +1,7 @@
+rostopic: /imu/data
+update_rate: 100.0
+
+accelerometer_noise_density: 0.0181609
+accelerometer_random_walk: 0.0002204
+gyroscope_noise_density: 0.0016330
+gyroscope_random_walk: 0.0000175 #10 times inflated

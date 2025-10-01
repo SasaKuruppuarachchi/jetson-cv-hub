@@ -1,0 +1,43 @@
+[LINEARIZE] Error: 1.6699e+07 num points 1261668
+        [ACCEPTED] lambda:1e-18 step_quality: 1.60524 max_inc: 9.9706e-09 Error: 1.6699e+07 num points 1261668
+[CONVERGED]
+==================================
+intrinsics 0:     462.543     463.196     503.307     505.091   0.0225568  -0.0283562   0.0234852 -0.00787057
+T_i_c0:
+-0.00307351  -0.0202945    0.999789    0.311774
+   -0.99998  0.00564879 -0.00295943   0.0424357
+-0.00558754   -0.999778  -0.0203115   -0.150509
+          0           0           0           1
+intrinsics 1:     463.281     463.749     493.495      509.37   0.0167149  -0.0131126  0.00654139 -0.00174223
+T_i_c1:
+0.00581914 -0.0291222   0.999559   0.311671
+  -0.99979   0.019488 0.00638826 -0.0755132
+-0.0196655  -0.999386 -0.0290027  -0.153003
+         0          0          0          1
+T_w_moc:
+1 0 0 0
+0 1 0 0
+0 0 1 0
+0 0 0 1
+T_mark_i:
+1 0 0 0
+0 1 0 0
+0 0 1 0
+0 0 0 1
+cam_time_offset_ns: 0
+mocap_time_offset_ns: 0
+accel_bias:   0.340856 -0.0542155  0.0668127
+accel_scale:
+1 0 0
+0 1 0
+0 0 1
+gyro_bias:  -0.00105299  0.000895721 -8.91702e-05
+gyro_scale:
+1 0 0
+0 1 0
+0 0 1
+ g -0.111536   9.66097   1.07361 norm: 9.72109 g_mocap: -0.111536   9.66097   1.07361
+Current error: 1.6699e+07 num_points 1261668 mean_error 13.2357 reprojection_error 3.53283e+06 mean reprojection 2.80013 opt_time 972ms.
+Optimization Converged !!
+==================================
+Saved calibration in /home/sasa/kalibr_workspace/Bags/basalt2/calibration.json

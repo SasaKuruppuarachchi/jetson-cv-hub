@@ -1,0 +1,122 @@
+<launch>
+
+    <!-- mono or stereo and what ros bag to play -->
+    <arg name="max_cameras" default="1" />
+    <arg name="use_stereo"  default="true" />
+
+    <!-- imu starting thresholds -->
+    <arg name="init_window_time"  default="0.75" />
+    <arg name="init_imu_thresh"   default="0.75" />
+
+    <!-- saving trajectory path and timing information -->
+    <arg name="dosave"      default="false" />
+    <arg name="dotime"      default="false" />
+    <arg name="path_est"    default="/home/ubuntu/catkin_ws/src/ov_raspi/traj_estimate.txt" />
+    <arg name="path_time"   default="/home/ubuntu/catkin_ws/src/ov_raspi/traj_timing.txt" />
+
+
+    <!-- MASTER NODE! -->
+    <node name="run_subscribe_msckf" pkg="ov_msckf" type="run_subscribe_msckf" output="screen" clear_params="true" required="true">
+
+        <!-- bag topics -->
+        <param name="topic_imu"      type="string" value="/camera/imu" />
+        <param name="topic_camera0"  type="string" value="/camera/fisheye1/image_raw" />
+        <param name="topic_camera1"  type="string" value="/camera/fisheye2/image_raw" />
+
+        <!-- world/filter parameters -->
+        <param name="use_fej"                type="bool"   value="true" />
+        <param name="use_imuavg"             type="bool"   value="true" />
+        <param name="use_rk4int"             type="bool"   value="true" />
+        <param name="use_stereo"             type="bool"   value="$(arg use_stereo)" />
+        <param name="calib_cam_extrinsics"   type="bool"   value="true" />
+        <param name="calib_cam_intrinsics"   type="bool"   value="true" />
+        <param name="calib_cam_timeoffset"   type="bool"   value="true" />
+        <param name="calib_camimu_dt"        type="double" value="0.0" />
+        <param name="max_clones"             type="int"    value="11" />
+        <param name="max_slam"               type="int"    value="25" />
+        <param name="max_slam_in_update"     type="int"    value="25" /> <!-- 25 seems to work well -->
+        <param name="max_msckf_in_update"    type="int"    value="50" />
+        <param name="max_cameras"            type="int"    value="$(arg max_cameras)" />
+        <param name="dt_slam_delay"          type="double" value="3" />
+        <param name="init_window_time"       type="double" value="$(arg init_window_time)" />
+        <param name="init_imu_thresh"        type="double" value="$(arg init_imu_thresh)" />
+        <rosparam param="gravity">[0.0,0.0,9.81]</rosparam>
+        <param name="feat_rep_msckf"         type="string" value="GLOBAL_3D" />
+        <param name="feat_rep_slam"          type="string" value="ANCHORED_FULL_INVERSE_DEPTH" />
+        <param name="feat_rep_aruco"         type="string" value="ANCHORED_FULL_INVERSE_DEPTH" />
+
+        <!-- timing statistics recording -->
+        <param name="record_timing_information"   type="bool"   value="$(arg dotime)" />
+        <param name="record_timing_filepath"      type="string" value="$(arg path_time)" />
+
+        <!-- tracker/extractor properties -->
+        <param name="use_klt"            type="bool"   value="true" />
+        <param name="num_pts"            type="int"    value="150" />
+        <param name="fast_threshold"     type="int"    value="15" />
+        <param name="grid_x"             type="int"    value="5" />
+        <param name="grid_y"             type="int"    value="3" />
+        <param name="min_px_dist"        type="int"    value="10" />
+        <param name="knn_ratio"          type="double" value="0.70" />
+        <param name="downsample_cameras" type="bool"   value="false" />
+
+        <!-- aruco tag/mapping properties -->
+        <param name="use_aruco"        type="bool"   value="false" />
+        <param name="num_aruco"        type="int"    value="1024" />
+        <param name="downsize_aruco"   type="bool"   value="true" />
+
+        <!-- sensor noise values / update -->
+        <param name="up_msckf_sigma_px"            type="double"   value="1" />
+        <param name="up_msckf_chi2_multipler"      type="double"   value="1" />
+        <param name="up_slam_sigma_px"             type="double"   value="1" />
+        <param name="up_slam_chi2_multipler"       type="double"   value="1" />
+        <param name="up_aruco_sigma_px"            type="double"   value="1" />
+        <param name="up_aruco_chi2_multipler"      type="double"   value="1" />
+        <param name="gyroscope_noise_density"      type="double"   value="1.6968e-02" />
+        <param name="gyroscope_random_walk"        type="double"   value="1.9393e-03" />
+        <param name="accelerometer_noise_density"  type="double"   value="1.0000e-1" />
+        <param name="accelerometer_random_walk"    type="double"   value="3.0000e-3" />
+
+        <!-- camera intrinsics -->
+        <rosparam param="cam0_wh">[848, 800]</rosparam>
+        <rosparam param="cam1_wh">[848, 800]</rosparam>
+        <param name="cam0_is_fisheye" type="bool" value="true" />
+        <param name="cam1_is_fisheye" type="bool" value="true" />
+        <rosparam param="cam0_k">[287.5222548531953, 287.7759196963578, 419.94592910576455, 394.2977562606552]</rosparam>
+        <rosparam param="cam0_d">[-0.008152232448426595, 0.06139283207665097, -0.06682430814303411, 0.01756431204855009]</rosparam>
+        <rosparam param="cam1_k">[287.2648972756499, 287.5526675605301, 417.53890746140695, 399.1202543659908]</rosparam>
+        <rosparam param="cam1_d">[-0.006601389878082893, 0.06285624670204437, -0.06624718433022161, 0.016178100033794867]</rosparam>
+
+        <!-- camera extrinsics -->
+        <rosparam param="T_C0toI">
+            [
+            -0.99920167,  0.02660989,  0.02979823,  0.00013258,
+            -0.02618486, -0.99955102,  0.01456427, -0.00102954,
+             0.03017241,  0.01377238,  0.99944982, -0.00098432,
+            0.0, 0.0, 0.0, 1.0
+            ]
+        </rosparam>
+        <rosparam param="T_C1toI">
+            [
+            -0.99940739,  0.02358804,  0.02506927, -0.06382506,
+            -0.02311628, -0.99955327,  0.01894448, -0.00286131,
+             0.02550493,  0.01835374,  0.99950620,  0.00096580,
+            0.0, 0.0, 0.0, 1.0
+            ]
+        </rosparam>
+
+
+    </node>
+
+    <node type="rviz" name="rviz" pkg="rviz" args="-d $(find ov_msckf)/launch/display.rviz" />
+
+    <!-- record the trajectory if enabled -->
+    <group if="$(arg dosave)">
+        <node name="recorder_estimate" pkg="ov_eval" type="pose_to_file" output="screen" required="true">
+            <param name="topic"      type="str" value="/ov_msckf/poseimu" />
+            <param name="topic_type" type="str" value="PoseWithCovarianceStamped" />
+            <param name="output"     type="str" value="$(arg path_est)" />
+        </node>
+    </group>
+
+
+</launch>
