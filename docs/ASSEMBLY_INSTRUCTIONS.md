@@ -60,6 +60,9 @@
 
 ## Component Overview
 
+![Jetson CV Hub Components](../figures/device_parts_named.png)
+*Annotated diagram showing all major components*
+
 ### Verify Components
 
 Before beginning assembly, verify all components from the [Bill of Materials (BOM)](../BOM.md):
@@ -68,6 +71,7 @@ Before beginning assembly, verify all components from the [Bill of Materials (BO
 - [ ] NVIDIA Jetson Orin module
 - [ ] FLIR machine vision camera(s) - [Quantity: 1-4]
 - [ ] Xsense IMU
+- [ ] PX4 Flight Controller (for hardware synchronization)
 - [ ] Power supply unit
 - [ ] Power distribution board
 

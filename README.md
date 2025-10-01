@@ -21,6 +21,15 @@ The Jetson CV Hub is a versatile, reconfigurable computer vision platform design
 
 The system features precise hardware synchronization with PX4 as the master device producing trigger signals at 100 Hz. The cameras and Xsense IMU are connected in parallel to receive synchronized timing signals, ensuring accurate temporal alignment for visual-inertial applications.
 
+![Jetson CV Hub - Front View](figures/device_front.jpg)
+*Front view showing FLIR cameras and sensor array*
+
+![Jetson CV Hub - Back View](figures/device_back.jpg)
+*Back view showing Jetson Orin, power distribution, and connectors*
+
+![Jetson CV Hub - Component Diagram](figures/device_parts_named.png)
+*Annotated diagram of all major components*
+
 
 ## Features
 
