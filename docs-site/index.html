@@ -28,8 +28,12 @@
         <div class="hero-content">
             <h1>Jetson CV Hub</h1>
             <p class="subtitle">An Open Source 3D Printable Computer Vision Hub for Researchers</p>
+            <p class="subtitle" style="font-size: 0.9em; margin-top: 0.5em;">
+                <em>A Synchronized Visual-Inertial Sensor System on Jetson for Accurate Real-Time SLAM</em>
+            </p>
             <div class="hero-buttons">
                 <a href="quick-start.html" class="btn btn-primary">Get Started</a>
+                <a href="https://youtu.be/AM4CTzeO3oE" class="btn btn-secondary" target="_blank">Watch Video</a>
                 <a href="https://github.com/SasaKuruppuarachchi/jetson-cv-hub" class="btn btn-secondary" target="_blank">View on GitHub</a>
             </div>
         </div>
@@ -42,11 +46,15 @@
             <div class="features-grid">
                 <div class="feature-card">
                     <h3>🎥 FLIR Machine Vision Cameras</h3>
-                    <p>High-quality imaging for computer vision applications</p>
+                    <p>High-quality imaging with hardware synchronization</p>
                 </div>
                 <div class="feature-card">
                     <h3>📡 Xsense IMU</h3>
                     <p>Precision inertial measurement for motion tracking and sensor fusion</p>
+                </div>
+                <div class="feature-card">
+                    <h3>🚁 PX4 Flight Controller</h3>
+                    <p>Master timing source (100 Hz), redundant IMU, and drone deployability</p>
                 </div>
                 <div class="feature-card">
                     <h3>⚡ NVIDIA Jetson Orin</h3>
@@ -61,6 +69,9 @@
                     <p>3D printable housing with reconfigurable mounting options</p>
                 </div>
             </div>
+            
+            <h3>Hardware Synchronization</h3>
+            <p>The system features precise hardware synchronization with PX4 as the master device producing trigger signals at 100 Hz. The cameras and Xsense IMU are connected in parallel to receive synchronized timing signals, ensuring accurate temporal alignment for visual-inertial applications.</p>
         </section>
 
         <section class="features">
@@ -182,15 +193,19 @@
 
         <section class="software-stack">
             <h2>Software Stack</h2>
+            <p>The system natively runs <strong>ROS2 Humble</strong> on NVIDIA Jetson with full GPU acceleration support.</p>
             <p>Compatible with:</p>
             <div class="software-grid">
+                <div class="software-item">ROS2 Humble</div>
                 <div class="software-item">JetPack SDK</div>
-                <div class="software-item">ROS/ROS2</div>
+                <div class="software-item">Isaac ROS</div>
+                <div class="software-item">NVIDIA Docker</div>
                 <div class="software-item">OpenCV</div>
                 <div class="software-item">CUDA</div>
                 <div class="software-item">PyTorch/TensorFlow</div>
                 <div class="software-item">Spinnaker SDK</div>
                 <div class="software-item">MT Software Suite</div>
+                <div class="software-item">PX4 Autopilot</div>
             </div>
         </section>
 
@@ -214,12 +229,13 @@
             <h2>Citation</h2>
             <p>If you use this project in your research, please cite:</p>
             <pre><code>@misc{jetson-cv-hub,
-  title={Jetson CV Hub: An Open Source Computer Vision Platform},
+  title={A Synchronized Visual-Inertial Sensor System on Jetson for Accurate Real-Time SLAM},
   author={[Author Name]},
   year={2024},
   publisher={GitHub},
   url={https://github.com/SasaKuruppuarachchi/jetson-cv-hub}
 }</code></pre>
+            <p><em>Note: "Jetson CV Hub" is the short name of the project.</em></p>
         </section>
     </main>
 
