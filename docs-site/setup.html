@@ -55,6 +55,13 @@
             .then(markdown => {
                 const html = marked.parse(markdown);
                 document.getElementById('markdown-content').innerHTML = html;
+                
+                // Fix image paths: markdown uses ../figures/ but we need figures/ from HTML location
+                document.querySelectorAll('#markdown-content img').forEach(img => {
+                    if (img.src.includes('../figures/')) {
+                        img.src = img.src.replace('../figures/', 'figures/');
+                    }
+                });
             })
             .catch(error => {
                 console.error('Error loading markdown:', error);
