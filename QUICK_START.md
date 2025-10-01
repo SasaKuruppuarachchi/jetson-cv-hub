@@ -4,6 +4,10 @@
 
 This guide provides a fast-track overview to get your Jetson CV Hub up and running.
 
+🎥 **[Watch the Project Video](https://youtu.be/AM4CTzeO3oE)** for an overview of features and results!
+
+![Jetson CV Hub](figures/device_front.jpg)
+
 ### Prerequisites
 
 - [ ] All components from [BOM.md](BOM.md) acquired

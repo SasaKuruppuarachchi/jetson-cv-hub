@@ -15,14 +15,19 @@
 
 1. [Prerequisites](#prerequisites)
 2. [Initial System Setup](#initial-system-setup)
-3. [Jetson Configuration](#jetson-configuration)
-4. [Camera Setup](#camera-setup)
-5. [IMU Setup](#imu-setup)
-6. [Network Configuration](#network-configuration)
-7. [Software Installation](#software-installation)
-8. [System Calibration](#system-calibration)
-9. [Verification and Testing](#verification-and-testing)
-10. [Troubleshooting](#troubleshooting)
+3. [Jetson Flashing Instructions](#jetson-flashing-instructions)
+4. [ROS2 Humble Installation](#ros2-humble-installation)
+5. [NVIDIA Docker Setup](#nvidia-docker-setup)
+6. [Isaac ROS Docker Setup](#isaac-ros-docker-setup)
+7. [Jetson Configuration](#jetson-configuration)
+8. [Camera Setup](#camera-setup)
+9. [IMU Setup](#imu-setup)
+10. [PX4 Setup and Hardware Synchronization](#px4-setup-and-hardware-synchronization)
+11. [Network Configuration](#network-configuration)
+12. [Software Installation](#software-installation)
+13. [System Calibration](#system-calibration)
+14. [Verification and Testing](#verification-and-testing)
+15. [Troubleshooting](#troubleshooting)
 
 ---
 
@@ -134,6 +139,547 @@ sudo apt autoremove -y
 
 # Reboot to ensure all updates applied
 sudo reboot
+```
+
+---
+
+## Jetson Flashing Instructions
+
+### Overview
+
+This section provides detailed instructions for flashing NVIDIA Jetson devices with JetPack OS. The Jetson CV Hub system requires JetPack 5.1 or later for optimal ROS2 Humble compatibility.
+
+### Method 1: SD Card Flashing (Easiest)
+
+This method is suitable for Jetson Orin Nano and Jetson Orin NX Developer Kits.
+
+#### Step 1: Download JetPack Image
+
+1. Visit NVIDIA's official download page:
+   - URL: https://developer.nvidia.com/embedded/jetpack
+   - Select your Jetson model (Orin Nano/NX/AGX)
+   - Download the latest JetPack SD Card Image (JetPack 5.1.2+ recommended)
+   - File size: ~10-15 GB
+
+2. Verify the download:
+   ```bash
+   # Check SHA256 sum
+   sha256sum jetson-orin-*.img.zip
+   ```
+
+#### Step 2: Flash SD Card
+
+**Using Balena Etcher (Recommended for all platforms)**:
+
+1. Download Balena Etcher:
+   - Windows/Mac/Linux: https://www.balena.io/etcher/
+   
+2. Flash the image:
+   - Launch Balena Etcher
+   - Click "Flash from file" and select the downloaded .img or .zip file
+   - Click "Select target" and choose your SD card (minimum 32GB recommended)
+   - Click "Flash!" and wait for completion (10-20 minutes)
+   - Etcher will automatically verify the flash
+
+**Using Command Line (Linux)**:
+
+```bash
+# Extract if zipped
+unzip jetson-orin-*.img.zip
+
+# Identify SD card device (be careful!)
+lsblk
+
+# Flash the image (replace /dev/sdX with your SD card)
+sudo dd if=jetson-orin-*.img of=/dev/sdX bs=4M status=progress conv=fsync
+sync
+
+# Verify (optional)
+sudo dd if=/dev/sdX of=/tmp/verify.img bs=4M count=2048
+```
+
+#### Step 3: First Boot
+
+1. Insert the flashed SD card into Jetson
+2. Connect peripherals (display, keyboard, mouse, Ethernet)
+3. Power on the Jetson
+4. Follow the on-screen setup wizard:
+   - Accept EULA
+   - Set username/password: `jetson` / `jetson` (or your preference)
+   - Set hostname: `jetson-cv-hub`
+   - Configure timezone and language
+   - Connect to network
+
+### Method 2: SDK Manager Flashing (Advanced)
+
+This method provides more control and is necessary for NVMe SSD installation.
+
+#### Prerequisites
+
+- Ubuntu 18.04/20.04/22.04 host computer
+- USB cable (Type-A to Type-C or Micro-USB depending on Jetson model)
+- Jetson in recovery mode
+
+#### Step 1: Install SDK Manager
+
+```bash
+# On Ubuntu host computer
+# Download SDK Manager from: https://developer.nvidia.com/nvidia-sdk-manager
+
+# Install the .deb package
+sudo apt install ./sdkmanager_[version]_amd64.deb
+
+# Launch SDK Manager
+sdkmanager
+```
+
+#### Step 2: Put Jetson in Recovery Mode
+
+1. Power off Jetson completely
+2. Connect USB cable from host to Jetson
+3. Hold the RECOVERY button
+4. Press and release POWER button
+5. Hold RECOVERY for 2 more seconds
+6. Release RECOVERY button
+
+7. Verify recovery mode on host:
+   ```bash
+   lsusb | grep -i nvidia
+   # Should show: "NVIDIA Corp. APX"
+   ```
+
+#### Step 3: Flash Using SDK Manager
+
+1. In SDK Manager:
+   - Select your Jetson model (auto-detected if in recovery mode)
+   - Select JetPack version (5.1.2+ recommended)
+   - Choose target components:
+     - ✅ Jetson OS
+     - ✅ CUDA, cuDNN, TensorRT
+     - ✅ OpenCV (with CUDA)
+     - ⬜ Multimedia components (optional)
+   
+2. Configure installation:
+   - Storage: SD Card or NVMe SSD
+   - Username/password: `jetson` / `jetson`
+   - Automatic login: Disabled (recommended)
+   
+3. Start flashing (takes 30-60 minutes):
+   - SDK Manager will download components
+   - Flash the OS
+   - Install additional SDK components
+
+4. After flashing, Jetson will reboot automatically
+
+### Method 3: Flashing to NVMe SSD
+
+For best performance, install JetPack directly to NVMe SSD.
+
+#### Option A: Flash Directly to NVMe (via SDK Manager)
+
+Follow Method 2 above, but select "NVMe SSD" as the target storage in SDK Manager.
+
+#### Option B: Clone from SD Card to NVMe
+
+1. First boot from SD card with flashed JetPack
+2. Install NVMe SSD in Jetson
+3. Clone system to NVMe:
+   ```bash
+   # Install cloning tools
+   git clone https://github.com/jetsonhacks/rootOnNVMe
+   cd rootOnNVMe
+   
+   # Run clone script
+   ./copy-rootfs-ssd.sh
+   
+   # Update boot configuration
+   ./setup-service.sh
+   
+   # Reboot to boot from NVMe
+   sudo reboot
+   ```
+
+### Post-Flash Verification
+
+After flashing, verify the installation:
+
+```bash
+# Check JetPack version
+cat /etc/nv_tegra_release
+
+# Check CUDA version
+nvcc --version
+
+# Check available disk space
+df -h
+
+# Check GPU
+nvidia-smi  # May not work on all Jetson models
+
+# Check Jetson stats
+sudo pip3 install jetson-stats
+sudo jtop
+```
+
+---
+
+## ROS2 Humble Installation
+
+The Jetson CV Hub natively runs **ROS2 Humble** on Ubuntu 22.04 (included in JetPack 5.1+).
+
+### Prerequisites
+
+- JetPack 5.1 or later (Ubuntu 22.04 base)
+- Internet connection
+- At least 10 GB free disk space
+
+### Step 1: Set up ROS2 Repository
+
+```bash
+# Set locale
+sudo apt update && sudo apt install locales
+sudo locale-gen en_US en_US.UTF-8
+sudo update-locale LC_ALL=en_US.UTF-8 LANG=en_US.UTF-8
+export LANG=en_US.UTF-8
+
+# Setup sources
+sudo apt install software-properties-common
+sudo add-apt-repository universe
+
+# Add ROS2 GPG key
+sudo apt update && sudo apt install curl -y
+sudo curl -sSL https://raw.githubusercontent.com/ros/rosdistro/master/ros.key -o /usr/share/keyrings/ros-archive-keyring.gpg
+
+# Add repository to sources list
+echo "deb [arch=$(dpkg --print-architecture) signed-by=/usr/share/keyrings/ros-archive-keyring.gpg] http://packages.ros.org/ros2/ubuntu $(. /etc/os-release && echo $UBUNTU_CODENAME) main" | sudo tee /etc/apt/sources.list.d/ros2.list > /dev/null
+```
+
+### Step 2: Install ROS2 Humble
+
+```bash
+# Update package lists
+sudo apt update
+sudo apt upgrade -y
+
+# Install ROS2 Humble Desktop (includes RViz, demos, tutorials)
+sudo apt install ros-humble-desktop -y
+
+# Or install ROS2 Base (minimal, no GUI tools)
+# sudo apt install ros-humble-ros-base -y
+
+# Install development tools
+sudo apt install ros-dev-tools -y
+sudo apt install python3-colcon-common-extensions -y
+```
+
+### Step 3: Environment Setup
+
+```bash
+# Source ROS2 setup script
+source /opt/ros/humble/setup.bash
+
+# Add to bashrc for automatic sourcing
+echo "source /opt/ros/humble/setup.bash" >> ~/.bashrc
+
+# Install argcomplete for command-line completion
+sudo apt install python3-argcomplete -y
+```
+
+### Step 4: Verify Installation
+
+```bash
+# Check ROS2 environment variables
+printenv | grep -i ROS
+
+# Test ROS2 installation
+# Terminal 1:
+ros2 run demo_nodes_cpp talker
+
+# Terminal 2 (open new terminal):
+ros2 run demo_nodes_cpp listener
+
+# List ROS2 topics
+ros2 topic list
+
+# If you see messages passing, ROS2 is working correctly!
+```
+
+### Step 5: Create ROS2 Workspace
+
+```bash
+# Create workspace directory
+mkdir -p ~/ros2_ws/src
+cd ~/ros2_ws
+
+# Build workspace (even if empty)
+colcon build
+
+# Source workspace
+source ~/ros2_ws/install/setup.bash
+
+# Add to bashrc
+echo "source ~/ros2_ws/install/setup.bash" >> ~/.bashrc
+```
+
+### Step 6: Install Common ROS2 Packages
+
+```bash
+# Camera drivers and image processing
+sudo apt install ros-humble-v4l2-camera -y
+sudo apt install ros-humble-image-transport-plugins -y
+sudo apt install ros-humble-vision-opencv -y
+
+# IMU and sensor drivers
+sudo apt install ros-humble-imu-tools -y
+
+# Visualization tools
+sudo apt install ros-humble-rqt* -y
+sudo apt install ros-humble-rviz2 -y
+
+# TF (coordinate transforms)
+sudo apt install ros-humble-tf2-tools -y
+sudo apt install ros-humble-tf-transformations -y
+
+# Diagnostic tools
+sudo apt install ros-humble-diagnostic-updater -y
+```
+
+---
+
+## NVIDIA Docker Setup
+
+NVIDIA Docker enables GPU-accelerated containers on Jetson, essential for Isaac ROS and other GPU workloads.
+
+### Step 1: Install Docker
+
+```bash
+# Add Docker's official GPG key
+curl -fsSL https://download.docker.com/linux/ubuntu/gpg | sudo gpg --dearmor -o /usr/share/keyrings/docker-archive-keyring.gpg
+
+# Set up stable repository
+echo "deb [arch=$(dpkg --print-architecture) signed-by=/usr/share/keyrings/docker-archive-keyring.gpg] https://download.docker.com/linux/ubuntu $(lsb_release -cs) stable" | sudo tee /etc/apt/sources.list.d/docker.list > /dev/null
+
+# Install Docker Engine
+sudo apt update
+sudo apt install docker-ce docker-ce-cli containerd.io docker-compose-plugin -y
+
+# Add user to docker group
+sudo usermod -aG docker $USER
+
+# Log out and back in for group changes to take effect
+# Or run: newgrp docker
+```
+
+### Step 2: Verify Docker Installation
+
+```bash
+# Test Docker
+docker run hello-world
+
+# Check Docker version
+docker --version
+docker compose version
+```
+
+### Step 3: Configure NVIDIA Container Runtime
+
+The NVIDIA Container Runtime is pre-installed on JetPack. Verify and configure:
+
+```bash
+# Verify NVIDIA Container Runtime
+sudo docker run --rm --runtime nvidia nvidia/cuda:11.4.2-base-ubuntu20.04 nvidia-smi
+
+# Configure Docker to use NVIDIA runtime by default
+sudo nano /etc/docker/daemon.json
+```
+
+Add the following content:
+
+```json
+{
+    "default-runtime": "nvidia",
+    "runtimes": {
+        "nvidia": {
+            "path": "nvidia-container-runtime",
+            "runtimeArgs": []
+        }
+    }
+}
+```
+
+Restart Docker:
+
+```bash
+# Restart Docker daemon
+sudo systemctl restart docker
+
+# Verify configuration
+docker info | grep -i runtime
+```
+
+### Step 4: Test GPU Access in Container
+
+```bash
+# Run a GPU-enabled container
+docker run --rm --runtime nvidia nvidia/cuda:11.4.2-base-ubuntu20.04 nvidia-smi
+
+# Test CUDA in container
+docker run --rm --runtime nvidia nvidia/cuda:11.4.2-base-ubuntu20.04 bash -c "nvcc --version"
+```
+
+---
+
+## Isaac ROS Docker Setup
+
+Isaac ROS provides GPU-accelerated ROS2 packages optimized for Jetson.
+
+### Prerequisites
+
+- Docker with NVIDIA runtime (see previous section)
+- At least 15 GB free disk space
+- Internet connection
+
+### Step 1: Clone Isaac ROS Common
+
+```bash
+# Create workspace for Isaac ROS
+mkdir -p ~/workspaces/isaac_ros-dev/src
+cd ~/workspaces/isaac_ros-dev/src
+
+# Clone Isaac ROS Common repository
+git clone https://github.com/NVIDIA-ISAAC-ROS/isaac_ros_common.git
+
+# Pull additional Isaac ROS packages as needed
+# Example: Visual SLAM
+git clone https://github.com/NVIDIA-ISAAC-ROS/isaac_ros_visual_slam.git
+
+# Example: Image processing
+git clone https://github.com/NVIDIA-ISAAC-ROS/isaac_ros_image_pipeline.git
+```
+
+### Step 2: Set Up Isaac ROS Docker
+
+```bash
+cd ~/workspaces/isaac_ros-dev/src/isaac_ros_common
+
+# Pull Isaac ROS Docker image (this may take 20-30 minutes)
+scripts/run_dev.sh -d ~/workspaces/isaac_ros-dev
+
+# This will:
+# - Pull the Isaac ROS development Docker image
+# - Set up X11 forwarding for GUI applications
+# - Mount your workspace
+# - Start a container with GPU access
+```
+
+### Step 3: Build Isaac ROS Packages Inside Container
+
+Inside the Isaac ROS Docker container:
+
+```bash
+# The container prompt will look like: user@docker:~/workspaces/isaac_ros-dev$
+
+# Build all packages
+cd /workspaces/isaac_ros-dev
+colcon build --symlink-install
+
+# Source the workspace
+source install/setup.bash
+```
+
+### Step 4: Configure Isaac ROS for Jetson
+
+```bash
+# Inside Isaac ROS container, optimize for Jetson
+export RMW_IMPLEMENTATION=rmw_fastrtps_cpp
+
+# Increase DDS buffer sizes for high-bandwidth data (cameras)
+export FASTRTPS_DEFAULT_PROFILES_FILE=/workspaces/isaac_ros-dev/fastdds.xml
+```
+
+Create `/workspaces/isaac_ros-dev/fastdds.xml`:
+
+```xml
+<?xml version="1.0" encoding="UTF-8" ?>
+<profiles xmlns="http://www.eprosima.com/XMLSchemas/fastRTPS_Profiles">
+    <transport_descriptors>
+        <transport_descriptor>
+            <transport_id>udp_transport</transport_id>
+            <type>UDPv4</type>
+            <sendBufferSize>1048576</sendBufferSize>
+            <receiveBufferSize>1048576</receiveBufferSize>
+        </transport_descriptor>
+    </transport_descriptors>
+</profiles>
+```
+
+### Step 5: Test Isaac ROS
+
+Inside Isaac ROS container:
+
+```bash
+# Test with a simple Isaac ROS node
+# Example: Image format converter
+ros2 run isaac_ros_image_proc isaac_ros_image_format_converter_node
+```
+
+### Step 6: Using Isaac ROS Container
+
+To re-enter the Isaac ROS development container:
+
+```bash
+# From host
+cd ~/workspaces/isaac_ros-dev/src/isaac_ros_common
+scripts/run_dev.sh -d ~/workspaces/isaac_ros-dev
+```
+
+To run a specific command in container:
+
+```bash
+# From host
+cd ~/workspaces/isaac_ros-dev/src/isaac_ros_common
+scripts/run_dev.sh -d ~/workspaces/isaac_ros-dev -c "ros2 topic list"
+```
+
+### Alternative: Build Custom Isaac ROS Docker Image
+
+For a production deployment, build a custom image:
+
+```bash
+# Create Dockerfile
+cd ~/workspaces/isaac_ros-dev
+nano Dockerfile.custom
+```
+
+Example Dockerfile:
+
+```dockerfile
+FROM nvcr.io/nvidia/isaac/ros:aarch64-ros2_humble_692506f75bc249228841d70e2e8c5f35
+
+# Install additional packages
+RUN apt-get update && apt-get install -y \
+    ros-humble-YOUR-PACKAGES \
+    && rm -rf /var/lib/apt/lists/*
+
+# Copy your workspace
+COPY . /workspaces/isaac_ros-dev
+
+# Build workspace
+WORKDIR /workspaces/isaac_ros-dev
+RUN . /opt/ros/humble/setup.sh && colcon build --symlink-install
+
+# Source workspace on container start
+RUN echo "source /workspaces/isaac_ros-dev/install/setup.bash" >> ~/.bashrc
+```
+
+Build and run:
+
+```bash
+# Build custom image
+docker build -t jetson-cv-hub:latest -f Dockerfile.custom .
+
+# Run custom image
+docker run --runtime nvidia -it --network host jetson-cv-hub:latest
 ```
 
 ---
@@ -372,6 +918,299 @@ sudo apt install -y ros-humble-xsens-mti-driver
 # Source ROS
 echo "source /opt/ros/humble/setup.bash" >> ~/.bashrc
 source ~/.bashrc
+```
+
+---
+
+## PX4 Setup and Hardware Synchronization
+
+### Overview
+
+The Jetson CV Hub uses PX4 as the master timing source for hardware synchronization. PX4 produces a trigger signal at 100 Hz that synchronizes the FLIR cameras and Xsense IMU. This setup provides:
+
+- **Precise Temporal Alignment**: All sensors capture data at exactly the same time
+- **Redundant IMU**: PX4 provides an additional IMU source for sensor fusion
+- **Easy Low-Level Control**: Direct access to PWM outputs, GPIO, and other interfaces
+- **Drone Deployability**: System can be directly integrated into UAV/drone platforms
+
+### Hardware Synchronization Architecture
+
+```
+PX4 Flight Controller (Master, 100 Hz)
+    ├── Trigger Output → FLIR Camera 1
+    ├── Trigger Output → FLIR Camera 2
+    ├── Trigger Output → FLIR Camera 3 (if present)
+    ├── Trigger Output → FLIR Camera 4 (if present)
+    └── Trigger Output → Xsense IMU
+```
+
+All devices receive the same trigger signal simultaneously, ensuring synchronized data capture.
+
+### Step 1: PX4 Hardware Setup
+
+1. **Connect PX4 to Jetson**:
+   - USB connection for MAVLink communication and configuration
+   - Trigger output pins connected to camera GPIO inputs
+   - Optional: Serial UART connection for higher bandwidth
+
+2. **Wire Trigger Outputs**:
+   - PX4 AUX outputs can be configured as camera triggers
+   - Connect PX4 AUX1-4 to camera GPIO trigger inputs
+   - Use appropriate voltage level conversion (3.3V or 5V depending on camera)
+   - Parallel connection to Xsense IMU sync input
+
+### Step 2: Install PX4 Software
+
+```bash
+# Install MAVLink dependencies
+sudo apt install -y python3-pip
+sudo pip3 install pymavlink
+
+# Install QGroundControl (for PX4 configuration)
+# Download from: http://qgroundcontrol.com/
+# Or use command line:
+sudo usermod -a -G dialout $USER
+sudo apt-get remove modemmanager -y
+sudo apt install gstreamer1.0-plugins-bad gstreamer1.0-libav gstreamer1.0-gl -y
+
+wget https://d176tv9ibo4jno.cloudfront.net/latest/QGroundControl.AppImage
+chmod +x QGroundControl.AppImage
+```
+
+### Step 3: Configure PX4 for Camera Triggering
+
+Connect to PX4 using QGroundControl or MAVLink console:
+
+```bash
+# Launch QGroundControl
+./QGroundControl.AppImage
+
+# Or use MAVLink console
+mavproxy.py --master=/dev/ttyUSB0 --baudrate 57600
+```
+
+Configure camera trigger parameters:
+
+```bash
+# In PX4 console (MAVLink shell or QGroundControl MAVLink Console)
+
+# Enable camera trigger
+param set CAM_TRIG_MODE 1
+
+# Set trigger interval for 100 Hz (10 ms)
+param set CAM_TRIG_INTERVAL 10.0
+
+# Set trigger polarity (active high/low depending on camera)
+param set CAM_TRIG_POLARITY 0
+
+# Set trigger on time (pulse width in milliseconds)
+param set CAM_TRIG_DURATION 1.0
+
+# Map trigger to AUX output (e.g., AUX1)
+param set CAM_TRIG_PINS 56  # AUX1 = pin 56
+
+# Save parameters
+param save
+
+# Reboot PX4
+reboot
+```
+
+### Step 4: Configure FLIR Cameras for External Trigger
+
+Using Spinnaker SDK or SpinView:
+
+```bash
+# Launch SpinView
+spinview
+
+# Or configure via command line (Python example)
+python3 << EOF
+import PySpin
+
+system = PySpin.System.GetInstance()
+cam_list = system.GetCameras()
+
+for cam in cam_list:
+    cam.Init()
+    
+    # Set trigger mode
+    cam.TriggerMode.SetValue(PySpin.TriggerMode_On)
+    
+    # Set trigger source to Line0 (GPIO)
+    cam.TriggerSource.SetValue(PySpin.TriggerSource_Line0)
+    
+    # Set trigger activation (rising edge)
+    cam.TriggerActivation.SetValue(PySpin.TriggerActivation_RisingEdge)
+    
+    # Optional: Set trigger delay
+    cam.TriggerDelay.SetValue(0.0)
+    
+    print(f"Camera {cam.DeviceSerialNumber()} configured for external trigger")
+    
+    cam.DeInit()
+
+cam_list.Clear()
+system.ReleaseInstance()
+EOF
+```
+
+### Step 5: Configure Xsense IMU for External Sync
+
+Using MT Manager or MT Software Suite:
+
+1. **Launch MT Manager**:
+   ```bash
+   mtmanager
+   ```
+
+2. **Configure Sync Settings**:
+   - Open Device Settings
+   - Navigate to Synchronization Settings
+   - Set Sync Mode: External Trigger
+   - Set Sync Signal: Rising Edge
+   - Set Output Rate: 100 Hz (matching PX4 trigger)
+   - Clock Source: External
+   - Save configuration to device
+
+3. **Or configure via command line** (if MT SDK available):
+   ```bash
+   # Example configuration (device-specific)
+   # Consult Xsense documentation for exact commands
+   ```
+
+### Step 6: Verify Synchronization
+
+Test that all sensors are receiving triggers:
+
+```bash
+# Monitor PX4 trigger output
+# In MAVLink console:
+listener camera_trigger
+
+# Check camera frame rate
+# Should show exactly 100 Hz
+ros2 topic hz /camera/image_raw
+
+# Check IMU data rate
+# Should show exactly 100 Hz
+ros2 topic hz /imu/data
+```
+
+### Step 7: Install MAVROS for ROS2 Integration
+
+MAVROS enables ROS2 communication with PX4:
+
+```bash
+# Install MAVROS for ROS2 Humble
+sudo apt install ros-humble-mavros ros-humble-mavros-extras -y
+
+# Install GeographicLib datasets (required for GPS)
+sudo /opt/ros/humble/lib/mavros/install_geographiclib_datasets.sh
+```
+
+### Step 8: Launch MAVROS
+
+Create a launch file for MAVROS:
+
+```bash
+mkdir -p ~/ros2_ws/src/jetson_cv_hub_launch/launch
+nano ~/ros2_ws/src/jetson_cv_hub_launch/launch/mavros.launch.py
+```
+
+Add:
+
+```python
+from launch import LaunchDescription
+from launch_ros.actions import Node
+
+def generate_launch_description():
+    return LaunchDescription([
+        Node(
+            package='mavros',
+            executable='mavros_node',
+            name='mavros',
+            output='screen',
+            parameters=[{
+                'fcu_url': '/dev/ttyUSB0:57600',
+                'gcs_url': '',
+                'target_system_id': 1,
+                'target_component_id': 1,
+                'fcu_protocol': 'v2.0',
+            }]
+        )
+    ])
+```
+
+Launch MAVROS:
+
+```bash
+cd ~/ros2_ws
+colcon build
+source install/setup.bash
+
+ros2 launch jetson_cv_hub_launch mavros.launch.py
+```
+
+### Step 9: Monitor PX4 Status in ROS2
+
+```bash
+# List MAVROS topics
+ros2 topic list | grep mavros
+
+# Monitor PX4 state
+ros2 topic echo /mavros/state
+
+# Monitor IMU data from PX4
+ros2 topic echo /mavros/imu/data
+
+# Monitor battery status
+ros2 topic echo /mavros/battery
+```
+
+### Synchronization Verification
+
+To verify proper synchronization:
+
+1. **Check Timestamp Alignment**:
+   ```bash
+   # Record data from all sensors
+   ros2 bag record /camera/image_raw /imu/data /mavros/imu/data
+   
+   # Analyze timestamps in recorded bag
+   ros2 bag info rosbag2_*
+   ```
+
+2. **Verify Trigger Frequency**:
+   - All sensors should report exactly 100 Hz
+   - Timestamps should be aligned within 1-2 milliseconds
+
+3. **Visual Verification**:
+   - Record synchronized video and IMU data
+   - Fast motion should show no temporal misalignment
+   - Use visual-inertial SLAM to verify sync quality
+
+### Troubleshooting Synchronization
+
+If synchronization issues occur:
+
+```bash
+# Check PX4 trigger output
+# In QGroundControl MAVLink console:
+listener camera_trigger
+
+# Verify camera trigger configuration
+spinview  # Check trigger settings in SpinView
+
+# Check GPIO connections
+# Ensure trigger signals reach camera GPIO pins
+# Use oscilloscope if available
+
+# Verify Xsense sync input
+mtmanager  # Check sync status in MT Manager
+
+# Check cable connections and signal levels
+# PX4 output should match camera/IMU input voltage requirements
 ```
 
 ---

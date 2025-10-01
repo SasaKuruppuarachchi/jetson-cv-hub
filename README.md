@@ -4,15 +4,31 @@ An Open Source 3D Printable Computer Vision Hub for Researchers
 
 📖 **[Visit the Project Website](https://sasakuruppuarachchi.github.io/jetson-cv-hub/)** for a better reading experience!
 
+🎥 **[Watch the Project Video](https://youtu.be/AM4CTzeO3oE)** - Overview, features, and results demonstration!
+
 ## Overview
 
 The Jetson CV Hub is a versatile, reconfigurable computer vision platform designed for robotics and machine vision research. It integrates:
 
-- **FLIR Machine Vision Cameras**: High-quality imaging for computer vision applications
+- **FLIR Machine Vision Cameras**: High-quality imaging for computer vision applications with hardware synchronization
 - **Xsense IMU**: Precision inertial measurement for motion tracking and sensor fusion
+- **PX4 Flight Controller**: Master timing source for hardware synchronization (100 Hz trigger), provides redundant IMU, enables easy low-level control and direct deployability to drones
 - **NVIDIA Jetson Orin**: Powerful onboard computing with GPU acceleration
 - **Onboard Power**: Integrated power management for all components
 - **Modular Design**: 3D printable housing with reconfigurable mounting options
+
+### Hardware Synchronization
+
+The system features precise hardware synchronization with PX4 as the master device producing trigger signals at 100 Hz. The cameras and Xsense IMU are connected in parallel to receive synchronized timing signals, ensuring accurate temporal alignment for visual-inertial applications.
+
+![Jetson CV Hub - Front View](figures/device_front.jpg)
+*Front view showing FLIR cameras and sensor array*
+
+![Jetson CV Hub - Back View](figures/device_back.jpg)
+*Back view showing Jetson Orin, power distribution, and connectors*
+
+![Jetson CV Hub - Component Diagram](figures/device_parts_named.png)
+*Annotated diagram of all major components*
 
 
 ## Features
@@ -124,14 +140,19 @@ The Jetson CV Hub is designed for various research applications:
 
 ## Software Stack
 
+The system natively runs **ROS2 Humble** on NVIDIA Jetson with full GPU acceleration support.
+
 Compatible with:
+- **ROS2 Humble**: Native Robot Operating System 2 support with real-time capabilities
 - **JetPack SDK**: NVIDIA's comprehensive development environment
-- **ROS/ROS2**: Robot Operating System integration
-- **OpenCV**: Computer vision library
+- **Isaac ROS**: NVIDIA's GPU-accelerated ROS2 packages
+- **NVIDIA Docker**: Containerized development environment
+- **OpenCV**: Computer vision library with CUDA acceleration
 - **CUDA**: GPU-accelerated computing
 - **PyTorch/TensorFlow**: Deep learning frameworks
 - **Spinnaker SDK**: FLIR camera control
 - **MT Software Suite**: Xsense IMU interface
+- **PX4 Autopilot**: Flight control and hardware synchronization
 
 ## Community and Support
 
@@ -159,13 +180,15 @@ If you use this project in your research, please cite:
 
 ```bibtex
 @misc{jetson-cv-hub,
-  title={Jetson CV Hub: An Open Source Computer Vision Platform},
+  title={A Synchronized Visual-Inertial Sensor System on Jetson for Accurate Real-Time SLAM},
   author={[Author Name]},
   year={2024},
   publisher={GitHub},
   url={https://github.com/SasaKuruppuarachchi/jetson-cv-hub}
 }
 ```
+
+**Note**: "Jetson CV Hub" is the short name of the project. The formal publication name is "A Synchronized Visual-Inertial Sensor System on Jetson for Accurate Real-Time SLAM".
 
 ## Acknowledgments
 
