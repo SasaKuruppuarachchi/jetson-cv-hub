@@ -935,6 +935,9 @@ The Jetson CV Hub uses PX4 as the master timing source for hardware synchronizat
 
 ### Hardware Synchronization Architecture
 
+![Hardware Synchronization Diagram](../figures/diagrams/Sync.jpg)
+*Hardware synchronization architecture with PX4-based trigger system*
+
 ```
 PX4 Flight Controller (Master, 100 Hz)
     ├── Trigger Output → FLIR Camera 1

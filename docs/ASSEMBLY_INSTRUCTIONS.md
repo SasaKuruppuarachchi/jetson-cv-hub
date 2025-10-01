@@ -101,6 +101,9 @@ Before beginning assembly, verify all components from the [Bill of Materials (BO
 
 ### Step 1: Prepare 3D Printed Parts
 
+![3D Printing in Progress](../figures/assembly/3d_printing_in_progress.jpg)
+*3D printer working on component parts*
+
 1. **Inspect printed parts** for quality
    - Check for layer adhesion
    - Verify dimensional accuracy
@@ -115,6 +118,9 @@ Before beginning assembly, verify all components from the [Bill of Materials (BO
    - Dry-fit major components without fasteners
    - Verify mounting holes align
    - Check clearances for cables and connectors
+
+![Completed 3D Printed Parts](../figures/assembly/3d%20printed_finish.jpg)
+*Finished 3D printed parts ready for assembly*
 
 ### Step 2: Prepare Electronic Components
 
@@ -153,6 +159,9 @@ Before beginning assembly, verify all components from the [Bill of Materials (BO
 
 #### Step 2: Mount Power Distribution
 
+![Power Assembly with Regulator](../figures/assembly/power_assembly_with%20regulator.jpg)
+*Power distribution system with voltage regulator installed*
+
 1. Position power distribution board in designated area
 2. Secure with M3 screws
 3. Verify clearance from other components (minimum 5mm)
@@ -175,6 +184,9 @@ Before beginning assembly, verify all components from the [Bill of Materials (BO
 ### Phase 2: Camera Installation
 
 #### Step 4: Mount Cameras
+
+![FLIR Camera Assembly](../figures/assembly/flir_camera_assembly.jpg)
+*FLIR camera mounting and installation*
 
 **For each camera:**
 
@@ -258,6 +270,32 @@ Before beginning assembly, verify all components from the [Bill of Materials (BO
    - Clean, professional appearance
 
 **Visual Check**: ✓ Neat cable routing, no stress on connectors, proper cable separation
+
+### Phase 4.5: Optional Components (if applicable)
+
+#### Step 7a: Install Status Display
+
+![I2C Display Assembly with Buttons](../figures/assembly/i2c_display_aseembly_with_buttons.jpg)
+*I2C status display with control buttons assembly*
+
+If your build includes a status display:
+1. Mount the I2C display module to the designated mounting location
+2. Connect the display to the Jetson I2C pins
+3. Install control buttons if included
+4. Route display cables neatly
+5. Test display connectivity before closing housing
+
+#### Step 7b: Install Altitude Sensor
+
+![Bottom Altitude Sensor Assembly](../figures/assembly/bottom_altitude_sensor_assmbly.jpg)
+*Bottom-mounted altitude sensor installation*
+
+If your build includes an altitude sensor:
+1. Mount the altitude sensor to the bottom plate
+2. Ensure sensor has clear exposure to air (no obstructions)
+3. Connect sensor to Jetson via I2C or appropriate interface
+4. Secure sensor cable routing
+5. Protect sensor from physical damage with mounting cover if available
 
 ### Phase 5: Final Assembly
 

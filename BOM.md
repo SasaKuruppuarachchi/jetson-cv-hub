@@ -13,6 +13,20 @@
 | 5 | Power Supply Unit | 1 | [TBD] | Input: 100-240V AC, Output: [TBD]V DC |
 | 6 | Power Distribution Board | 1 | Custom/COTS | Provides power to all components |
 
+#### Core Component Images
+
+![FLIR Blackfly Camera](figures/hardware/FLIR_BFLY-U3-23S6.png)
+*FLIR Blackfly U3-23S6 Machine Vision Camera*
+
+![Xsense MTi IMU](figures/hardware/xsense_imu.png)
+*Xsense MTi Inertial Measurement Unit*
+
+![PX4 Flight Controller](figures/hardware/px4.jpg)
+*PX4 flight controller for hardware synchronization*
+
+![NVIDIA Jetson](figures/hardware/jetson.jpg)
+*NVIDIA Jetson Orin module*
+
 ### Camera Lenses
 
 Available lens options for FLIR cameras:

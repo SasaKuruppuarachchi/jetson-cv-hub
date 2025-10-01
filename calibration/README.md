@@ -11,6 +11,9 @@ Proper calibration is essential for accurate computer vision and sensor fusion a
 - Camera-to-IMU transformation matrices
 - Multi-camera stereo/multi-view calibration
 
+![Calibration Workflow](../figures/diagrams/Calib.png)
+*Camera and IMU calibration workflow diagram*
+
 ## Directory Structure
 
 ```
